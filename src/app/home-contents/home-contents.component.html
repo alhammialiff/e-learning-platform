@@ -1,0 +1,36 @@
+<div class="container">
+
+  <!-- Continue Learning (Where user left off previously) -->
+  <div class="row pt-3 pb-2">
+    <div class="col-12">
+      <h2>Continue Learning</h2>
+    </div>
+
+  </div>
+
+  <div class="row pb-3" *ngFor="let course of courses">
+    <div class="col">
+      <!-- Add card of most recent activity -->
+      <app-card></app-card>
+    </div>
+  </div>
+
+  <div class="row pt-3 pb-2">
+    <div class="col-12">
+      <h2>Available for you</h2>
+    </div>
+    <div class="col">
+      <!-- Add card of available courses for user -->
+      <app-card></app-card>
+    </div>
+  </div>
+
+  <div class="row">
+
+  </div>
+
+  <div class="row">
+
+  </div>
+
+</div>
