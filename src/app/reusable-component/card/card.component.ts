@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Course } from 'src/app/model/course';
+import { CardNav } from 'src/app/model/CardNav';
+import { Course } from 'src/app/model/Course';
 
 @Component({
   selector: 'app-card',
@@ -9,10 +10,7 @@ import { Course } from 'src/app/model/course';
 export class CardComponent {
 
   @Input()
-  course!: Course;
-
-  @Input()
-  imageSrc!: string;
+  cardContent!: CardNav | null;
 
   constructor(){}
 
@@ -22,7 +20,7 @@ export class CardComponent {
 
   onTitleChanged(newTitle: string){
 
-    this.course.title = newTitle;
+    // this.title.title = newTitle;
 
   }
 

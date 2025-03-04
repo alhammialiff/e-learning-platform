@@ -1,6 +1,8 @@
 import { CourseService } from './../services/course.service';
 import { Component } from '@angular/core';
-import { Course } from '../model/course';
+import { Course } from '../model/Course';
+import { CardNav } from '../model/CardNav';
+import { AdminService } from '../services/user-management/admin.service';
 
 @Component({
   selector: 'app-home-contents',
@@ -12,9 +14,15 @@ export class HomeContentsComponent {
   // Courses that are available to User
   courses!: Course[];
 
-  constructor(private courseService: CourseService){}
+  adminLinks: CardNav[] | null = null;
+
+  constructor(private courseService: CourseService,
+    private adminService: AdminService
+  ){}
 
   ngOnInit(){
+
+    this.adminLinks = this.adminService.getAdminLinks();
 
     this.courseService.getAllCoursesByUserID().subscribe({
       next: (response) => {
@@ -28,6 +36,7 @@ export class HomeContentsComponent {
         console.error(error);
 
       }
+
     })
 
   }

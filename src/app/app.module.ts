@@ -8,6 +8,10 @@ import { MobileNavTabComponent } from './mobile-nav-tab/mobile-nav-tab.component
 import { HomeContentsComponent } from './home-contents/home-contents.component';
 import { CardComponent } from './reusable-component/card/card.component';
 import { HttpClientModule } from '@angular/common/http';
+import { WelcomeBackCardComponent } from './home-contents/welcome-back-card/welcome-back-card.component';
+import { ManageCourseComponent } from './manage-course/manage-course.component';
+import { CreateNewCourseComponent } from './manage-course/create-new-course/create-new-course.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,12 +19,16 @@ import { HttpClientModule } from '@angular/common/http';
     TopNavComponent,
     MobileNavTabComponent,
     HomeContentsComponent,
-    CardComponent
+    CardComponent,
+    WelcomeBackCardComponent,
+    CreateNewCourseComponent,
+    ManageCourseComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

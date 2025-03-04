@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="row pt-4">
+    <div class="col">
+      <h3>Getting Started</h3>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col">
+      <form [formGroup]="createNewCourseForm">
+
+        <div class="row py-3">
+          <div class="col">
+            <h5>Course Title</h5>
+
+            <input class="form-control" type="text" formControlName="courseTitle" title="Course Title" placeholder="Enter Course Title"/>
+
+          </div>
+        </div>
+
+        <div class="row pb-3">
+          <div class="col">
+            <h5>Course Description</h5>
+
+            <textarea class="form-control" type="text" formControlName="courseDescription" title="Course Title" placeholder="Enter Course Description">
+            </textarea>
+          </div>
+        </div>
+
+        <div class="row pb-3">
+          <div class="col">
+            <h5>Learning Objectives</h5>
+
+            <textarea class="form-control" type="text" formControlName="learningObjectives" title="Course Title" placeholder="Enter Learning Objectives">
+            </textarea>
+          </div>
+        </div>
+
+        <div class="row pb-3">
+          <div class="col">
+            <h5>Which Topic Does This Course Fall In?</h5>
+
+            <select class="form-select" formControlName="topic">
+              <option *ngFor="let topic of topics">
+                {{topic}}
+              </option>
+            </select>
+
+          </div>
+        </div>
+
+
+
+      </form>
+    </div>
+
+  </div>
+
+  <button class="btn btn-primary w-100">Next</button>
+
+</div>
