@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, createEnvironmentInjector, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { InsertCreateSectionComponentDirective } from 'src/app/directives/insert-create-section-component.directive';
+import { CreateSectionComponent } from 'src/app/reusable-component/create-section/create-section.component';
 
 @Component({
   selector: 'create-new-course',
@@ -7,6 +9,11 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./create-new-course.component.scss']
 })
 export class CreateNewCourseComponent {
+
+  // ===================================
+  // Custom Directives to dynamically inject components into this component
+  // ===================================
+  @ViewChild(InsertCreateSectionComponentDirective, {static:false}) insertCreateSectionComponent!: InsertCreateSectionComponentDirective;
 
   topics: string[] = [
     'Bus Operations',
@@ -20,17 +27,20 @@ export class CreateNewCourseComponent {
     'Workplace Relations'
   ]
 
+  // courseChapters = new FormGroup({
+  //     chapterTitle: new FormControl('', Validators.required)
+  // })
+
   createNewCourseForm: FormGroup = new FormGroup({
     courseTitle: new FormControl('', Validators.required),
     courseDescription: new FormControl('', Validators.required),
     learningObjectives: new FormControl('', Validators.required),
     topic: new FormControl('', Validators.required),
-    courseSections: new FormArray([
-      // ****************************
-      // TO-DO AFTER BASIC FORM IS UP
-      // ****************************
+    courseChapters: new FormArray([
+      new FormGroup({
+        chapterTitle: new FormControl('', Validators.required)
+      })
     ])
-
   });
 
   constructor(){}
@@ -43,6 +53,29 @@ export class CreateNewCourseComponent {
 
   ngAfterViewInit(){
 
+    // this.injectCreateSectionComponent();
+
   }
 
+  injectCreateSectionComponent(){
+
+    var sectionalContainerRef: ViewContainerRef;
+
+    sectionalContainerRef = this.insertCreateSectionComponent.viewContainerRef;
+
+    const createSectionInstance = new CreateSection(CreateSectionComponent, {data: 'test'});
+
+    const componentRef = sectionalContainerRef.createComponent(createSectionInstance.component);
+
+
+  }
+
+  get courseChapters() {
+    return this.createNewCourseForm.get('courseChapters') as FormArray;
+  }
+
+}
+
+class CreateSection {
+  constructor(public component: Type<any>, public data: any) { }
 }

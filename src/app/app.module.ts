@@ -12,6 +12,8 @@ import { WelcomeBackCardComponent } from './home-contents/welcome-back-card/welc
 import { ManageCourseComponent } from './manage-course/manage-course.component';
 import { CreateNewCourseComponent } from './manage-course/create-new-course/create-new-course.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { InsertCreateSectionComponentDirective } from './directives/insert-create-section-component.directive';
+import { CreateSectionComponent } from './reusable-component/create-section/create-section.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     CardComponent,
     WelcomeBackCardComponent,
     CreateNewCourseComponent,
-    ManageCourseComponent
+    ManageCourseComponent,
+    InsertCreateSectionComponentDirective,
+    CreateSectionComponent
   ],
   imports: [
     BrowserModule,
