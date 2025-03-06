@@ -1,7 +1,84 @@
 <div class="container">
 
-  <div>
+  <div class="row">
     <h5>Section Component Injected</h5>
   </div>
+
+  <div class="row">
+
+    <form [formGroup]="createNewCourseForm">
+
+      <ng-container [formGroup]="sectionForm">
+
+          <!-- NOTE: The formal approach of wiring up controls into DOM is confusing -->
+          <!-- <ng-container *ngFor="let s of section.controls; let i = index"> -->
+
+            <!-- <div [formGroup]="parsingCourseChapters1"> -->
+
+              <div class="row">
+                <div class="col">
+                  <h3>Add Sections to your Course</h3>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <h5>Section Title</h5>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <input class="form-control" type="text" formControlName="sectionTitle" placeholder="Enter this chapter's title">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <h5>Section Description</h5>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <input class="form-control" type="text" formControlName="sectionDescription" placeholder="Enter this chapter's title">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <h5>Section Outcome</h5>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <input class="form-control" type="text" formControlName="sectionOutcome" placeholder="Enter this chapter's title">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <h5>Section Content</h5>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <input class="form-control" type="text" formControlName="sectionContent" placeholder="Enter this chapter's title">
+                </div>
+              </div>
+
+
+            <!-- </div> -->
+
+          <!-- </ng-container> -->
+        </ng-container>
+
+    </form>
+
+  </div>
+
+
 
 </div>

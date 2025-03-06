@@ -27,18 +27,30 @@ export class CreateNewCourseComponent {
     'Workplace Relations'
   ]
 
-  // courseChapters = new FormGroup({
-  //     chapterTitle: new FormControl('', Validators.required)
-  // })
-
+  // ================================================
+  // Root-level course creation form
+  // Form Structure:
+  //  CreateNewCourseForm
+  //  -   CourseChapters  [Should be array]
+  //    -     Section [Should be array]
+  //
+  // ** A course should have multiple chapters that may have multiple sections
+  // ================================================
   createNewCourseForm: FormGroup = new FormGroup({
     courseTitle: new FormControl('', Validators.required),
     courseDescription: new FormControl('', Validators.required),
     learningObjectives: new FormControl('', Validators.required),
     topic: new FormControl('', Validators.required),
+
+    // Course Chapters
     courseChapters: new FormArray([
       new FormGroup({
-        chapterTitle: new FormControl('', Validators.required)
+        chapterTitle: new FormControl('', Validators.required),
+
+        // To dynamically add sections when user clicks 'Add Section'
+        section: new FormArray([
+
+        ])
       })
     ])
   });
@@ -57,21 +69,63 @@ export class CreateNewCourseComponent {
 
   }
 
+  // ============================================================
+  // This module dynamically inject section component into DOM
+  // ============================================================
   injectCreateSectionComponent(){
+
+    const sectionForm = this.addSectionFormGroupIntoFormArray();
 
     var sectionalContainerRef: ViewContainerRef;
 
     sectionalContainerRef = this.insertCreateSectionComponent.viewContainerRef;
 
-    const createSectionInstance = new CreateSection(CreateSectionComponent, {data: 'test'});
+    const createSectionInstance = new CreateSection(CreateSectionComponent, {parentForm: this.createNewCourseForm, childForm: sectionForm});
 
     const componentRef = sectionalContainerRef.createComponent(createSectionInstance.component);
 
+    componentRef.instance.dataFromParent = createSectionInstance.data;
+
+  }
+
+  // ==========================================================================
+  // This module add new Section Form into root-level CreateNewCourseForm
+  //
+  // Note: Section Form should be initialized within function scope. Otherwise
+  // every addition of Section Form will contain the same value as others.
+  // =========================================================================
+  addSectionFormGroupIntoFormArray(): FormGroup{
+
+    // console.log("this.section", this.section);
+    const sectionForm: FormGroup = new FormGroup({
+      sectionTitle: new FormControl('', Validators.required),
+      sectionDescription: new FormControl('', Validators.required),
+      sectionOutcome: new FormControl('', Validators.required),
+      sectionContent: new FormControl('', Validators.required)
+    });
+
+    // =========================================
+    // Push sectionForm into section Form Array
+    // Form Structure:
+    //  CreateNewCourseForm
+    //  -   CourseChapters  [Should be array]
+    //    -     Section [Should be array]
+    // =========================================
+    this.section.push(sectionForm);
+
+    return sectionForm;
 
   }
 
   get courseChapters() {
     return this.createNewCourseForm.get('courseChapters') as FormArray;
+  }
+
+  get section(){
+
+    // Change 0 to var
+    return this.courseChapters.at(this.courseChapters.length - 1).get('section') as FormArray;
+
   }
 
 }
