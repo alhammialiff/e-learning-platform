@@ -11,6 +11,7 @@ import { environment as devEnvironment } from 'src/environment/environment.devel
 // PROD ENV: Environment Variables
 // ================================================
 import { environment as prodEnvironment} from 'src/environment/environment';
+import { SectionMultimedia } from '../model/SectionMultimedia';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,8 @@ export class CourseService {
 
   // PROD ENV (To use prior to prod deployment)
   private PROD_API_URL = prodEnvironment.API_URL;
+
+  arrayOfReappendedSections: SectionMultimedia[] = [];
 
   constructor(
     private httpClient: HttpClient) { }
@@ -43,6 +46,33 @@ export class CourseService {
     return this.httpClient
       .post(`${this.DEV_API_URL}/api/course/all`, request)
       .pipe(catchError(error => error));
+
+  }
+
+  // ==============================================
+  // Post New Course
+  //
+  // Request Body:
+  //    userID: Admin ID (later)
+  //    courseData: Course Form Data
+  //    timestamp: datetime (later)
+  //    token: admin token (later)
+  // ==============================================
+  postNewCourse(request: any): Observable<any>{
+
+    console.log("[postNewCourse] Request",request)
+
+    return this.httpClient
+      .post(`${this.DEV_API_URL}/api/course/new`, request)
+      .pipe(catchError(error => error));
+
+  }
+
+  pushToSectionMultimedia(multimedia: SectionMultimedia): void{
+
+    this.arrayOfReappendedSections.push(multimedia);
+
+    console.log("this.arrayOfReappendedSections", this.arrayOfReappendedSections);
 
   }
 

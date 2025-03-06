@@ -1,7 +1,8 @@
-import { Component, createEnvironmentInjector, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, createEnvironmentInjector, ElementRef, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { InsertCreateSectionComponentDirective } from 'src/app/directives/insert-create-section-component.directive';
 import { CreateSectionComponent } from 'src/app/reusable-component/create-section/create-section.component';
+import { CourseService } from 'src/app/services/course.service';
 
 @Component({
   selector: 'create-new-course',
@@ -46,7 +47,7 @@ export class CreateNewCourseComponent {
     courseChapters: new FormArray([
       new FormGroup({
         chapterTitle: new FormControl('', Validators.required),
-
+        chapterNumber: new FormControl(1),
         // To dynamically add sections when user clicks 'Add Section'
         section: new FormArray([
 
@@ -55,11 +56,21 @@ export class CreateNewCourseComponent {
     ])
   });
 
-  constructor(){}
+  newCourseForm!: any | null;
+
+  constructor(private courseService: CourseService,
+    private host: ElementRef<HTMLElement>
+  ){}
 
   ngOnInit(){
 
-    this.createNewCourseForm.valueChanges.subscribe(console.log);
+    this.createNewCourseForm.valueChanges.subscribe((formData)=>{
+
+      console.log("this.newCourseForm", this.newCourseForm)
+
+      this.newCourseForm = formData;
+
+    });
 
   }
 
@@ -72,7 +83,7 @@ export class CreateNewCourseComponent {
   // ============================================================
   // This module dynamically inject section component into DOM
   // ============================================================
-  injectCreateSectionComponent(){
+  injectCreateSectionComponent = () => {
 
     const sectionForm = this.addSectionFormGroupIntoFormArray();
 
@@ -80,7 +91,11 @@ export class CreateNewCourseComponent {
 
     sectionalContainerRef = this.insertCreateSectionComponent.viewContainerRef;
 
-    const createSectionInstance = new CreateSection(CreateSectionComponent, {parentForm: this.createNewCourseForm, childForm: sectionForm});
+    const createSectionInstance = new CreateSection(CreateSectionComponent,
+      {
+        parentForm: this.createNewCourseForm,
+        childForm: sectionForm,
+      });
 
     const componentRef = sectionalContainerRef.createComponent(createSectionInstance.component);
 
@@ -94,14 +109,15 @@ export class CreateNewCourseComponent {
   // Note: Section Form should be initialized within function scope. Otherwise
   // every addition of Section Form will contain the same value as others.
   // =========================================================================
-  addSectionFormGroupIntoFormArray(): FormGroup{
+  addSectionFormGroupIntoFormArray = (): FormGroup => {
 
     // console.log("this.section", this.section);
     const sectionForm: FormGroup = new FormGroup({
+      sectionNumber: new FormControl(this.section.length + 1),
       sectionTitle: new FormControl('', Validators.required),
       sectionDescription: new FormControl('', Validators.required),
       sectionOutcome: new FormControl('', Validators.required),
-      sectionContent: new FormControl('', Validators.required)
+      sectionMultimedia: new FormControl('', Validators.required)
     });
 
     // =========================================
@@ -114,6 +130,16 @@ export class CreateNewCourseComponent {
     this.section.push(sectionForm);
 
     return sectionForm;
+
+  }
+
+
+  // ============================================
+  // Invoke course service to commence POST /api/course/new
+  // ============================================
+  onSubmitNewCourse = () => {
+
+    this.courseService.postNewCourse(this.newCourseForm);
 
   }
 

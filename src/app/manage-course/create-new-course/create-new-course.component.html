@@ -50,8 +50,6 @@
           </div>
         </div>
 
-
-
       </form>
     </div>
 
@@ -61,7 +59,7 @@
 
 </div>
 
-<div class="container">
+<div class="container create-chapter-container p-4 mb-3">
 
   <form [formGroup]="createNewCourseForm">
 
@@ -83,7 +81,7 @@
               </div>
             </div>
 
-            <div class="row">
+            <div class="row mb-3">
               <div class="col">
                 <input class="form-control" type="text" formControlName="chapterTitle" placeholder="Enter this chapter's title">
               </div>
@@ -93,7 +91,7 @@
               <ng-template insertCreateSectionComponent></ng-template>
             </div>
 
-            <div class="row">
+            <div class="row mb-3">
               <div class="col">
                 <button class="btn btn-primary w-100" (click)="injectCreateSectionComponent()">Add Section</button>
               </div>
@@ -106,4 +104,10 @@
 
   </form>
 
+</div>
+
+<div class="container mb-3">
+  <div class="row">
+    <button class="btn btn-warning" (click)="onSubmitNewCourse()">Publish Course</button>
+  </div>
 </div>
