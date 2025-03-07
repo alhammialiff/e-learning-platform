@@ -76,4 +76,23 @@ export class CourseService {
 
   }
 
+  removeFromSectionMultimediaByKeyValuePair(section: SectionMultimedia): void{
+
+    // Remove Section Multimedia by chapterNumber and sectionNumber by filter
+    this.arrayOfReappendedSections = this.arrayOfReappendedSections.filter((item: SectionMultimedia) => {
+
+      console.log("item", item.sectionTitle);
+      console.log("section", section.sectionTitle);
+
+      return item.sectionTitle !== section.sectionTitle
+        || item.sectionNumber !== section.sectionNumber
+        || item.sectionDescription !== section.sectionDescription
+        || item.sectionOutcome !== section.sectionOutcome
+        || item.sectionContentMultimedia !== section.sectionContentMultimedia;
+    });
+
+    console.log("[Remove by keyvalue pair] this.arrayOfReappendedSections", this.arrayOfReappendedSections);
+
+  }
+
 }

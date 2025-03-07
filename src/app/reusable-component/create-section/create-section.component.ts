@@ -112,6 +112,8 @@ export class CreateSectionComponent {
 
     console.log((this.createNewCourseForm.get('courseChapters') as FormArray).controls[this.chapterNumber - 1].get('section') as FormArray);
 
+    this.courseService.removeFromSectionMultimediaByKeyValuePair(this.formToSend.courseChapters[this.chapterNumber - 1].section[this.sectionNumber - 1]);
+
     this.host.nativeElement.remove();
 
   }
