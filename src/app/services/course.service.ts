@@ -1,5 +1,5 @@
 import { TimeService } from './time.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, ObservedValueOf } from 'rxjs';
 
@@ -12,7 +12,7 @@ import { environment as devEnvironment } from 'src/environment/environment.devel
 // PROD ENV: Environment Variables
 // ================================================
 import { environment as prodEnvironment} from 'src/environment/environment';
-import { SectionMultimedia } from '../model/SectionMultimedia';
+import { Section } from '../model/Section';
 import { PostRequest } from '../model/PostRequest';
 
 
@@ -27,7 +27,7 @@ export class CourseService {
   // PROD ENV (To use prior to prod deployment)
   private PROD_API_URL = prodEnvironment.API_URL;
 
-  arrayOfReappendedSections: SectionMultimedia[] = [];
+  arrayOfReappendedSections: Section[] = [];
 
   constructor(
     private httpClient: HttpClient,
@@ -54,7 +54,7 @@ export class CourseService {
   }
 
 
-  pushToSectionMultimedia(multimedia: SectionMultimedia): void{
+  pushToSectionMultimedia(multimedia: Section): void{
 
     this.arrayOfReappendedSections.push(multimedia);
 
@@ -62,10 +62,10 @@ export class CourseService {
 
   }
 
-  removeFromSectionMultimediaByKeyValuePair(section: SectionMultimedia): void{
+  removeFromSectionMultimediaByKeyValuePair(section: Section): void{
 
     // Remove Section Multimedia by chapterNumber and sectionNumber by filter
-    this.arrayOfReappendedSections = this.arrayOfReappendedSections.filter((item: SectionMultimedia) => {
+    this.arrayOfReappendedSections = this.arrayOfReappendedSections.filter((item: Section) => {
 
       console.log("item", item.sectionTitle);
       console.log("section", section.sectionTitle);
@@ -75,26 +75,44 @@ export class CourseService {
         || item.sectionNumber !== section.sectionNumber
         || item.sectionDescription !== section.sectionDescription
         || item.sectionOutcome !== section.sectionOutcome
-        || item.sectionContentMultimedia !== section.sectionContentMultimedia;
+        || item.sectionMultimedia !== section.sectionMultimedia;
+
     });
 
     console.log("[Remove by keyvalue pair] this.arrayOfReappendedSections", this.arrayOfReappendedSections);
 
   }
 
-  publishCourse(createNewCourseFormData: any): void{
+  publishCourse(createNewCourseFormData: any): Observable<any>[]{
 
     console.log("[Before stitchFormDataWithAppendedSectionData] createNewCourseFormData", createNewCourseFormData);
 
     // (1) Restitch appended section data with latest form data
     const newCourseFormDataWithAppendedSectionData = this.stitchFormDataWithAppendedSectionData(createNewCourseFormData);
 
+    const multimediaDataArray = newCourseFormDataWithAppendedSectionData?.courseChapters[0].section.map((s: any) => {
+
+      if((s.sectionMultimedia.file !== null || s.sectionMultimedia.file !== undefined)){
+
+        return s.sectionMultimedia;
+
+      }else{
+
+        return null;
+
+      }
+
+    });
+
     // (2) Send to backend
-    this.postNewCourse(newCourseFormDataWithAppendedSectionData);
+    return [
+      this.postNewCourseFormData(newCourseFormDataWithAppendedSectionData),
+      this.postNewCourseMultimediaFiles(multimediaDataArray)
+    ];
 
   }
 
-  stitchFormDataWithAppendedSectionData(createNewCourseFormData: any): void{
+  stitchFormDataWithAppendedSectionData(createNewCourseFormData: any){
 
 
     createNewCourseFormData?.courseChapters[0].section.forEach((section: any, index: number) => {
@@ -103,8 +121,11 @@ export class CourseService {
 
     });
 
+
+
     console.log("[After stitchFormDataWithAppendedSectionData] createNewCourseFormData", createNewCourseFormData);
 
+    // return [createNewCourseFormData, multimediaDataArray];
     return createNewCourseFormData;
 
   }
@@ -118,13 +139,23 @@ export class CourseService {
   //    timestamp: datetime (later)
   //    token: admin token (later)
   // ==============================================
-  postNewCourse(newCourse: any): Observable<any>{
+  postNewCourseFormData(newCourseFormData: any): Observable<any>{
 
+
+    var fileNames = [];
+
+    // const convertedMultimediaFileArray = multimediaDataArray.forEach((multimediaData: any)=>{
+
+    //   var fileData: FormData = new FormData();
+    //   fileData.append('file', multimediaData.file);
+    //   fileNames.push(multimediaData.file.name);
+
+    // });
 
     const request: PostRequest = {
 
       request: 'New Course',
-      data: newCourse,
+      data: newCourseFormData,
       timestamp: this.timeService.getCurrentTimestamp()
     }
 
@@ -132,6 +163,37 @@ export class CourseService {
 
     return this.httpClient
       .post(`${this.DEV_API_URL}/api/course/new`, request)
+      .pipe(catchError(error => error));
+
+  }
+
+  postNewCourseMultimediaFiles(courseMultimediaFiles: any): Observable<any>{
+
+    var fileDataArray: FormData = new FormData();
+    courseMultimediaFiles.forEach((multimediaData: any)=>{
+
+      console.log("[postNewCourseMultimediaFiles] multimediaData", multimediaData);
+
+      if(multimediaData.file === undefined || multimediaData === undefined || multimediaData === null){
+
+        return null;
+
+      }
+
+      return fileDataArray
+        .append('files[]',
+          multimediaData.file,
+          `chapter${multimediaData.chapterNumber}-section${multimediaData.sectionNumber}-${multimediaData.file.name}`
+          );
+      // fileNames.push(multimediaData.file.name);
+
+    });
+
+    const httpHeader = new HttpHeaders();
+    httpHeader.append('Content-Type', 'multipart/form-data');
+
+    return this.httpClient
+      .post(`${this.DEV_API_URL}/api/course/new/upload`, fileDataArray, {headers: httpHeader})
       .pipe(catchError(error => error));
 
   }

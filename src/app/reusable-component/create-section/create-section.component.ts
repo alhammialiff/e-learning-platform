@@ -80,12 +80,22 @@ export class CreateSectionComponent {
 
     this.formToSend = {...this.createNewCourseForm.getRawValue()};
 
-    // Append mutable form to include actual multimedia file, chapter number and section number
-    this.formToSend.courseChapters[this.chapterNumber - 1].section[this.sectionNumber - 1].sectionMultimedia =
-    {
-      file: this.sectionMultimedia,
-      chapterNumber: this.chapterNumber,
-      sectionNumber: this.sectionNumber
+    const sectionMultimedia = this.formToSend.courseChapters[this.chapterNumber - 1].section[this.sectionNumber - 1].sectionMultimedia;
+
+    if(sectionMultimedia !== null || sectionMultimedia !== undefined){
+
+      // Append mutable form to include actual multimedia file, chapter number and section number
+      this.formToSend.courseChapters[this.chapterNumber - 1].section[this.sectionNumber - 1].sectionMultimedia =
+      {
+        file: this.sectionMultimedia,
+        chapterNumber: this.chapterNumber,
+        sectionNumber: this.sectionNumber
+      }
+
+    }else{
+
+      this.formToSend.courseChapters[this.chapterNumber - 1].section[this.sectionNumber - 1].sectionMultimedia = null;
+
     }
 
     // Push section data to arrayOfReappendedSections in Course Service

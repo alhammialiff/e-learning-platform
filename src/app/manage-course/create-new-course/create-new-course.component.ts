@@ -117,7 +117,7 @@ export class CreateNewCourseComponent {
       sectionTitle: new FormControl('', Validators.required),
       sectionDescription: new FormControl('', Validators.required),
       sectionOutcome: new FormControl('', Validators.required),
-      sectionMultimedia: new FormControl('', Validators.required)
+      sectionMultimedia: new FormControl(null, Validators.required)
     });
 
     // =========================================
@@ -139,12 +139,51 @@ export class CreateNewCourseComponent {
   // ============================================
   onPublishNewCourse = () => {
 
-    // this.courseService.postNewCourse(this.newCourseForm);
+    // ===============================================
+    // POST New Course Form Data Request subscription
+    // ===============================================
     this.courseService.publishCourse(
       {
         ...this.createNewCourseForm.getRawValue()
       }
-    );
+    )[0].subscribe({
+      next: (httpResponse) => {
+
+        console.log("[onPublishNewCourse|POST /api/course/new]",httpResponse);
+
+      },
+      error: (error: any) => {
+
+        console.log("[onPublishNewCourse|POST /api/course/new]", error);
+
+      },
+      complete: () =>{
+
+      }
+    });
+
+    // ============================================
+    // POST Multimedia Upload Request subscription
+    // ============================================
+    this.courseService.publishCourse(
+      {
+        ...this.createNewCourseForm.getRawValue()
+      }
+    )[1].subscribe({
+      next: (httpResponse) => {
+
+        console.log("[onPublishNewCourse|POST /api/course/new/upload]",httpResponse);
+
+      },
+      error: (error: any) => {
+
+        console.log("[onPublishNewCourse|POST /api/course/new/upload]", error);
+
+      },
+      complete: () =>{
+
+      }
+    });
 
   }
 
