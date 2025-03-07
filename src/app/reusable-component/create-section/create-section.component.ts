@@ -61,14 +61,21 @@ export class CreateSectionComponent {
 
   }
 
-  // Function to process file upload (may need service for this)
+  // ============================================================
+  // Function to process file upload
+  // ============================================================
   onFileSelected = (event: any) => {
 
     this.sectionMultimedia = event.target.files[0];
 
-
   }
 
+
+  //================================================================
+  // Save section data by -:
+  // (1) Appending multimedia file into section form data
+  // (2) Pushing appended section data to arrayOfReappendedSections
+  //================================================================
   saveSection = () => {
 
     this.formToSend = {...this.createNewCourseForm.getRawValue()};
@@ -81,6 +88,8 @@ export class CreateSectionComponent {
       sectionNumber: this.sectionNumber
     }
 
+    // Push section data to arrayOfReappendedSections in Course Service
+    // This data, reappended with multimedia file, will then be restitched with the form data before performing POST request
     this.courseService.pushToSectionMultimedia(this.formToSend.courseChapters[this.chapterNumber - 1].section[this.sectionNumber - 1]);
 
     console.log('sectionContentMultimedia', this.sectionMultimedia);
@@ -93,7 +102,10 @@ export class CreateSectionComponent {
 
   // =================================================
   // Remove Section Form Array Data from Form Group
-  // (doe not remove the UI)
+  // Removes -:
+  // (1) Section data from Form Group Data
+  // (2) Reappended section data from Course Service arrayOfReappendedSections
+  // (3) UI data from DOM
   // =================================================
   removeSection = () => {
 
@@ -112,6 +124,7 @@ export class CreateSectionComponent {
 
     console.log((this.createNewCourseForm.get('courseChapters') as FormArray).controls[this.chapterNumber - 1].get('section') as FormArray);
 
+    // Remove section data from arrayOfReappendedSections (we don't want the removed section to be published on POST request)
     this.courseService.removeFromSectionMultimediaByKeyValuePair(this.formToSend.courseChapters[this.chapterNumber - 1].section[this.sectionNumber - 1]);
 
     this.host.nativeElement.remove();
@@ -122,6 +135,7 @@ export class CreateSectionComponent {
 
 }
 
+// ================================================================================================================
 // TO-DO
 // (1) Continue working on form data massage
 //   - On submit, course service should reappend multimedia file into createNewCourse Form's section Form Array
@@ -132,3 +146,4 @@ export class CreateSectionComponent {
 //         - Only share with the schema, data massage technique at backend when first db signal test is successful
 //   - To remember to dev dynamic chapter creation after demo
 //   - To test test test
+// ================================================================================================================

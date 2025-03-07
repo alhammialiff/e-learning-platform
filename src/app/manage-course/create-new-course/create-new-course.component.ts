@@ -137,9 +137,14 @@ export class CreateNewCourseComponent {
   // ============================================
   // Invoke course service to commence POST /api/course/new
   // ============================================
-  onSubmitNewCourse = () => {
+  onPublishNewCourse = () => {
 
-    this.courseService.postNewCourse(this.newCourseForm);
+    // this.courseService.postNewCourse(this.newCourseForm);
+    this.courseService.publishCourse(
+      {
+        ...this.createNewCourseForm.getRawValue()
+      }
+    );
 
   }
 

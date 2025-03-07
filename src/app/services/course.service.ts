@@ -1,3 +1,4 @@
+import { TimeService } from './time.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, ObservedValueOf } from 'rxjs';
@@ -12,6 +13,8 @@ import { environment as devEnvironment } from 'src/environment/environment.devel
 // ================================================
 import { environment as prodEnvironment} from 'src/environment/environment';
 import { SectionMultimedia } from '../model/SectionMultimedia';
+import { PostRequest } from '../model/PostRequest';
+
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +30,8 @@ export class CourseService {
   arrayOfReappendedSections: SectionMultimedia[] = [];
 
   constructor(
-    private httpClient: HttpClient) { }
+    private httpClient: HttpClient,
+    private timeService: TimeService) { }
 
 
   // ==============================================
@@ -49,24 +53,6 @@ export class CourseService {
 
   }
 
-  // ==============================================
-  // Post New Course
-  //
-  // Request Body:
-  //    userID: Admin ID (later)
-  //    courseData: Course Form Data
-  //    timestamp: datetime (later)
-  //    token: admin token (later)
-  // ==============================================
-  postNewCourse(request: any): Observable<any>{
-
-    console.log("[postNewCourse] Request",request)
-
-    return this.httpClient
-      .post(`${this.DEV_API_URL}/api/course/new`, request)
-      .pipe(catchError(error => error));
-
-  }
 
   pushToSectionMultimedia(multimedia: SectionMultimedia): void{
 
@@ -84,6 +70,7 @@ export class CourseService {
       console.log("item", item.sectionTitle);
       console.log("section", section.sectionTitle);
 
+      // Return sections that do not match - essentially removing the requested section data
       return item.sectionTitle !== section.sectionTitle
         || item.sectionNumber !== section.sectionNumber
         || item.sectionDescription !== section.sectionDescription
@@ -94,5 +81,60 @@ export class CourseService {
     console.log("[Remove by keyvalue pair] this.arrayOfReappendedSections", this.arrayOfReappendedSections);
 
   }
+
+  publishCourse(createNewCourseFormData: any): void{
+
+    console.log("[Before stitchFormDataWithAppendedSectionData] createNewCourseFormData", createNewCourseFormData);
+
+    // (1) Restitch appended section data with latest form data
+    const newCourseFormDataWithAppendedSectionData = this.stitchFormDataWithAppendedSectionData(createNewCourseFormData);
+
+    // (2) Send to backend
+    this.postNewCourse(newCourseFormDataWithAppendedSectionData);
+
+  }
+
+  stitchFormDataWithAppendedSectionData(createNewCourseFormData: any): void{
+
+
+    createNewCourseFormData?.courseChapters[0].section.forEach((section: any, index: number) => {
+
+      createNewCourseFormData.courseChapters[0].section[index] = this.arrayOfReappendedSections[index];
+
+    });
+
+    console.log("[After stitchFormDataWithAppendedSectionData] createNewCourseFormData", createNewCourseFormData);
+
+    return createNewCourseFormData;
+
+  }
+
+  // ==============================================
+  // Post New Course
+  //
+  // Request Body:
+  //    userID: Admin ID (later)
+  //    courseData: Course Form Data
+  //    timestamp: datetime (later)
+  //    token: admin token (later)
+  // ==============================================
+  postNewCourse(newCourse: any): Observable<any>{
+
+
+    const request: PostRequest = {
+
+      request: 'New Course',
+      data: newCourse,
+      timestamp: this.timeService.getCurrentTimestamp()
+    }
+
+    console.log("[postNewCourse] Request",request)
+
+    return this.httpClient
+      .post(`${this.DEV_API_URL}/api/course/new`, request)
+      .pipe(catchError(error => error));
+
+  }
+
 
 }
