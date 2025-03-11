@@ -11,17 +11,17 @@ export class AdminService {
     {
       route: 'user-management',
       title: 'Manage User',
-      image: 'user-management.png'
+      image: 'group'
     },
     {
       route: 'course-management',
       title: 'Manage Course',
-      image: 'course-management.png'
+      image: 'menu_book'
     },
     {
       route: 'reporting-and-analytics',
       title: 'Reporting and Analytics',
-      image: 'reporting-and-analytics.png'
+      image: 'monitoring'
     }
   ]
 

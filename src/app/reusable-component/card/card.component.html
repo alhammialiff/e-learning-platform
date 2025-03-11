@@ -1,4 +1,4 @@
-<div class="container card p-3">
+<div class="container card p-3 mb-3">
   <div class="row">
 
     <div class="col-8">
@@ -6,9 +6,23 @@
        <h6>{{ cardContent !== null? cardContent.title: null}} </h6>
     </div>
 
-    <div class="col-4">
+    <div class="col-4 d-flex justify-content-center">
       <!-- Course image -->
-      <img src="https://via.placeholder.com/150" alt="Course image">
+      <ng-container *ngIf="cardContent?.image == 'group'">
+        <span class="material-symbols-outlined">
+          group
+        </span>
+      </ng-container>
+      <ng-container *ngIf="cardContent?.image == 'menu_book'">
+        <span class="material-symbols-outlined">
+          menu_book
+        </span>
+      </ng-container>
+      <ng-container *ngIf="cardContent?.image == 'monitoring'">
+        <span class="material-symbols-outlined">
+          monitoring
+        </span>
+      </ng-container>
     </div>
 
   </div>

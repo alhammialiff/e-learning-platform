@@ -133,7 +133,6 @@ export class CreateNewCourseComponent {
 
   }
 
-
   // ============================================
   // Invoke course service to commence POST /api/course/new
   // ============================================
