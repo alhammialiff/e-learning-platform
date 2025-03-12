@@ -1,23 +1,49 @@
 <div class="container">
 
-  <div class="row py-4">
-    <div class="col">
-      <app-card
-        [cardContent]="manageCourseLinks !== null? manageCourseLinks[0]: null"
-        routerLink='/manage-course/create'>
-      </app-card>
+  <div class="row py-3">
+    <div class="col-12">
+      <h2>Manage Course</h2>
     </div>
   </div>
 
-  <div class="row pb-4">
+  <div class="row py-3">
+    <div class="col-12">
+      <h4>Course Enrollment</h4>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="col">
-      <app-card [cardContent]="manageCourseLinks !== null? manageCourseLinks[1]: null"></app-card>
+      <app-card [cardContent]="manageCourseLinks !== null? manageCourseLinks[0]: null"></app-card>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row py-3">
+    <div class="col-12">
+      <h4>Course Management</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <app-card
+        [cardContent]="manageCourseLinks !== null? manageCourseLinks[1]: null"
+        routerLink='/manage-course/create'>
+      </app-card>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
       <app-card [cardContent]="manageCourseLinks !== null? manageCourseLinks[2]: null"></app-card>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <app-card [cardContent]="manageCourseLinks !== null? manageCourseLinks[3]: null"></app-card>
     </div>
   </div>
 

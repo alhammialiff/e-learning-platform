@@ -34,6 +34,23 @@ export class CourseService {
     private timeService: TimeService) { }
 
 
+  getAllCourses_SuperUser(): Observable<any>{
+
+
+    const request: any = {
+
+      // userID: 'ef98feb1-4baf-430c-abb4-43e96a4654b6',
+      user: 'root'
+
+    };
+
+    return this.httpClient
+      .post(`${this.DEV_API_URL}/api/course/all`, request)
+      .pipe(catchError(error => error));
+
+
+  }
+
   // ==============================================
   // Get All Courses By User ID
   // ==============================================
@@ -90,6 +107,9 @@ export class CourseService {
     // (1) Restitch appended section data with latest form data
     const newCourseFormDataWithAppendedSectionData = this.stitchFormDataWithAppendedSectionData(createNewCourseFormData);
 
+    console.log("[Before stitchFormDataWithAppendedSectionData] newCourseFormDataWithAppendedSectionData", newCourseFormDataWithAppendedSectionData);
+
+
     const multimediaDataArray = newCourseFormDataWithAppendedSectionData?.courseChapters[0].section.map((s: any) => {
 
       if((s.sectionMultimedia.file !== null || s.sectionMultimedia.file !== undefined)){
@@ -114,10 +134,33 @@ export class CourseService {
 
   stitchFormDataWithAppendedSectionData(createNewCourseFormData: any){
 
+    console.log("[stitchFormDataWithAppendedSectionData] createNewCourseFormData", createNewCourseFormData);
 
-    createNewCourseFormData?.courseChapters[0].section.forEach((section: any, index: number) => {
+    var restitchedFormData = {
+      ...createNewCourseFormData
+    };
 
-      createNewCourseFormData.courseChapters[0].section[index] = this.arrayOfReappendedSections[index];
+    const savedSections = restitchedFormData.courseChapters[0].section.filter((section: any, index: number) => {
+
+      console.log("[stitchFormDataWithAppendedSectionData] restitchedFormData", section);
+
+      if(section._sectionIsSaved){
+
+        return section;
+
+      }
+
+    });
+
+    restitchedFormData.courseChapters[0].section = savedSections;
+
+    console.log("[stitchFormDataWithAppendedSectionData] restitchedFormData", restitchedFormData);
+
+    restitchedFormData?.courseChapters[0].section.forEach((section: any, index: number) => {
+
+      var section = restitchedFormData.courseChapters[0].section[index];
+
+      section = this.arrayOfReappendedSections[index];
 
     });
 
@@ -197,6 +240,8 @@ export class CourseService {
       .pipe(catchError(error => error));
 
   }
+
+
 
 
 }

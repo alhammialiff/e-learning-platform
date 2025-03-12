@@ -1,5 +1,5 @@
 import { CourseService } from './../services/course.service';
-import { Component } from '@angular/core';
+import { Component, SimpleChange } from '@angular/core';
 import { Course } from '../model/Course';
 import { CardNav } from '../model/CardNav';
 import { AdminService } from '../services/user-management/admin.service';
@@ -12,7 +12,7 @@ import { AdminService } from '../services/user-management/admin.service';
 export class HomeContentsComponent {
 
   // Courses that are available to User
-  courses!: Course[];
+  courses!: Partial<Course>[];
 
   adminLinks: CardNav[] | null = null;
 
@@ -24,11 +24,30 @@ export class HomeContentsComponent {
 
     this.adminLinks = this.adminService.getAdminLinks();
 
-    this.courseService.getAllCoursesByUserID().subscribe({
-      next: (response) => {
+    // =======================================================
+    // Get All Courses By User ID (shelved)
+    // =======================================================
+    // this.courseService.getAllCoursesByUserID().subscribe({
+    //   next: (response) => {
 
-        console.log("[Success] Get All Courses By User ID", response);
+    //     console.log("[Success] Get All Courses By User ID", response);
+    //     this.courses = response?.data;
+
+    //   },
+    //   error: (error) => {
+
+    //     console.error(error);
+
+    //   }
+
+    // });
+
+    this.courseService.getAllCourses_SuperUser().subscribe({
+      next: (response: any) => {
+
+        console.log("[Success] Get All Courses (Super User)", response);
         this.courses = response?.data;
+
 
       },
       error: (error) => {
@@ -37,12 +56,23 @@ export class HomeContentsComponent {
 
       }
 
-    })
+    });
 
   }
 
   ngAfterViewInit(){
 
   }
+
+  // ngOnChanges(changes: SimpleChange){
+
+  //   if(changes){
+
+  //     console.log("changes", changes);
+
+
+  //   }
+
+  // }
 
 }

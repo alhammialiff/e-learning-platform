@@ -14,6 +14,7 @@ import { CreateNewCourseComponent } from './manage-course/create-new-course/crea
 import { ReactiveFormsModule } from '@angular/forms';
 import { InsertCreateSectionComponentDirective } from './directives/insert-create-section-component.directive';
 import { CreateSectionComponent } from './reusable-component/create-section/create-section.component';
+import { ManageEnrollmentComponent } from './manage-course/manage-enrollment/manage-enrollment.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CreateSectionComponent } from './reusable-component/create-section/crea
     CreateNewCourseComponent,
     ManageCourseComponent,
     InsertCreateSectionComponentDirective,
-    CreateSectionComponent
+    CreateSectionComponent,
+    ManageEnrollmentComponent
   ],
   imports: [
     BrowserModule,

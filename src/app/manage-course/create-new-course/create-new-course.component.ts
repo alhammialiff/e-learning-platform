@@ -117,7 +117,8 @@ export class CreateNewCourseComponent {
       sectionTitle: new FormControl('', Validators.required),
       sectionDescription: new FormControl('', Validators.required),
       sectionOutcome: new FormControl('', Validators.required),
-      sectionMultimedia: new FormControl(null, Validators.required)
+      sectionMultimedia: new FormControl(null, Validators.required),
+      _sectionIsSaved: new FormControl(false)
     });
 
     // =========================================
@@ -159,6 +160,7 @@ export class CreateNewCourseComponent {
       complete: () =>{
 
       }
+
     });
 
     // ============================================
@@ -182,6 +184,7 @@ export class CreateNewCourseComponent {
       complete: () =>{
 
       }
+
     });
 
   }

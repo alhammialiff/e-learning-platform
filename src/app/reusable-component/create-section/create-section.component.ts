@@ -20,6 +20,7 @@ export class CreateSectionComponent {
   chapterNumber: any;
   sectionNumber: number = 0;
   formToSend: any;
+  formIsSaved: boolean = false;
 
   constructor(private courseService: CourseService,
     private host: ElementRef<HTMLElement>
@@ -85,7 +86,10 @@ export class CreateSectionComponent {
     if(sectionMultimedia !== null || sectionMultimedia !== undefined){
 
       // Append mutable form to include actual multimedia file, chapter number and section number
-      this.formToSend.courseChapters[this.chapterNumber - 1].section[this.sectionNumber - 1].sectionMultimedia =
+      this.formToSend
+        .courseChapters[this.chapterNumber - 1]
+        .section[this.sectionNumber - 1]
+        .sectionMultimedia =
       {
         file: this.sectionMultimedia,
         chapterNumber: this.chapterNumber,
@@ -98,6 +102,9 @@ export class CreateSectionComponent {
 
     }
 
+    console.log("[Save Section] Section Data", this.formToSend.courseChapters[this.chapterNumber - 1].section[this.sectionNumber - 1]);
+
+
     // Push section data to arrayOfReappendedSections in Course Service
     // This data, reappended with multimedia file, will then be restitched with the form data before performing POST request
     this.courseService.pushToSectionMultimedia(this.formToSend.courseChapters[this.chapterNumber - 1].section[this.sectionNumber - 1]);
@@ -107,6 +114,15 @@ export class CreateSectionComponent {
     console.log('this.formToSend', this.formToSend);
     console.log('chapterNumber', this.chapterNumber);
     console.log('sectionNumber', this.sectionNumber);
+
+    // Finally, set flag to signify section is successfully save
+    // This is important for later parsing to weed out non-saved forms
+    //
+    // Hacky fix (to fix for real later):
+    // setValue is performed twice because form data is lagged by one input count
+    this.sectionForm.controls["_sectionIsSaved"].setValue(true);
+    this.sectionForm.controls["_sectionIsSaved"].setValue(true);
+
 
   }
 

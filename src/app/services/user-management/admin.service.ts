@@ -11,12 +11,12 @@ export class AdminService {
     {
       route: 'user-management',
       title: 'Manage User',
-      image: 'group'
+      image: 'manageUser'
     },
     {
       route: 'course-management',
       title: 'Manage Course',
-      image: 'menu_book'
+      image: 'manageCourse'
     },
     {
       route: 'reporting-and-analytics',
@@ -27,19 +27,24 @@ export class AdminService {
 
   manageCourseLinks: CardNav[] = [
     {
+      route: 'enroll-user',
+      title: 'Manage Enrollment',
+      image: 'enrollUser'
+    },
+    {
       route: 'create-new-course',
       title: 'Create New Course',
-      image: 'create-new-course.png'
+      image: 'createCourse'
     },
     {
       route: 'edit-course',
       title: 'Edit Course',
-      image: 'edit-course.png'
+      image: 'editCourse'
     },
     {
       route: 'delete-course',
       title: 'Delete Course',
-      image: 'delete-course.png'
+      image: 'deleteCourse'
     }
   ]
 

@@ -1,29 +1,78 @@
 <div class="container card p-3 mb-3">
   <div class="row">
 
-    <div class="col-8">
-      <!-- Course title -->
-       <h6>{{ cardContent !== null? cardContent.title: null}} </h6>
-    </div>
+    <ng-container *ngIf="isCardNav">
 
-    <div class="col-4 d-flex justify-content-center">
-      <!-- Course image -->
-      <ng-container *ngIf="cardContent?.image == 'group'">
-        <span class="material-symbols-outlined">
-          group
-        </span>
-      </ng-container>
-      <ng-container *ngIf="cardContent?.image == 'menu_book'">
-        <span class="material-symbols-outlined">
-          menu_book
-        </span>
-      </ng-container>
-      <ng-container *ngIf="cardContent?.image == 'monitoring'">
-        <span class="material-symbols-outlined">
-          monitoring
-        </span>
-      </ng-container>
-    </div>
+      <div class="col-8">
+        <!-- Course title -->
+         <h6>{{ cardContent !== null? cardContent.title: null}} </h6>
+      </div>
+
+      <div class="col-4 d-flex justify-content-center">
+        <!-- Course image -->
+        <ng-container *ngIf="cardContent?.image == 'manageUser'">
+          <span class="material-symbols-outlined">
+            group
+          </span>
+        </ng-container>
+        <ng-container *ngIf="cardContent?.image == 'manageCourse'">
+          <span class="material-symbols-outlined">
+            menu_book
+          </span>
+        </ng-container>
+        <ng-container *ngIf="cardContent?.image == 'monitoring'">
+          <span class="material-symbols-outlined">
+            monitoring
+          </span>
+        </ng-container>
+        <ng-container *ngIf="cardContent?.image == 'deleteCourse'">
+          <span class="material-symbols-outlined">
+            delete
+          </span>
+        </ng-container>
+        <ng-container *ngIf="cardContent?.image == 'editCourse'">
+          <span class="material-symbols-outlined">
+            edit_square
+          </span>
+        </ng-container>
+        <ng-container *ngIf="cardContent?.image == 'createCourse'">
+          <span class="material-symbols-outlined">
+            add_box
+          </span>
+        </ng-container>
+        <ng-container *ngIf="cardContent?.image == 'enrollUser'">
+          <span class="material-symbols-outlined">
+            group_add
+          </span>
+        </ng-container>
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="isCourseCard">
+
+      <div class="col-8">
+        <!-- Course title -->
+         <h6>{{ cardContent !== null? cardContent.title: null}} </h6>
+      </div>
+
+      <div class="col-4
+        d-flex
+        justify-content-center
+        course-image
+        p-1">
+        <!-- Course image -->
+        <ng-container *ngIf="cardContent?.image === null || cardContent?.image === undefined; else courseImageAvailable">
+          <img class="img-fluid" src="/assets/image/default-course-image.png" alt="">
+        </ng-container>
+
+        <ng-template #courseImageAvailable>
+          <img class="img-fluid" [src]="imagePath" alt="">
+        </ng-template>
+
+      </div>
+
+    </ng-container>
 
   </div>
 </div>
