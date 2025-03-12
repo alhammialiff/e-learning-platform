@@ -1,3 +1,4 @@
+import { SectionMultimedia } from './../model/SectionMultimedia';
 import { TimeService } from './time.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -112,15 +113,25 @@ export class CourseService {
 
     const multimediaDataArray = newCourseFormDataWithAppendedSectionData?.courseChapters[0].section.map((s: any) => {
 
-      if((s.sectionMultimedia.file !== null || s.sectionMultimedia.file !== undefined)){
+      if(s.sectionMultimedia){
 
-        return s.sectionMultimedia;
+        if((s.sectionMultimedia.file !== null || s.sectionMultimedia.file !== undefined)){
+
+          return s.sectionMultimedia;
+
+        }else{
+
+          return null;
+
+        }
 
       }else{
 
         return null;
 
       }
+
+
 
     });
 
@@ -217,7 +228,7 @@ export class CourseService {
 
       console.log("[postNewCourseMultimediaFiles] multimediaData", multimediaData);
 
-      if(multimediaData.file === undefined || multimediaData === undefined || multimediaData === null){
+      if(multimediaData === undefined || multimediaData === null || multimediaData.file === undefined){
 
         return null;
 
