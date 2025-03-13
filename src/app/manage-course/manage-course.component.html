@@ -14,7 +14,9 @@
 
   <div class="row">
     <div class="col">
-      <app-card [cardContent]="manageCourseLinks !== null? manageCourseLinks[0]: null"></app-card>
+      <app-card [cardContent]="manageCourseLinks !== null? manageCourseLinks[0]: null"
+        routerLink='/manage-course/enroll'>
+      </app-card>
     </div>
   </div>
 

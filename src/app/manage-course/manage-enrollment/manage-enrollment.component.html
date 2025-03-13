@@ -1,1 +1,22 @@
-<p>manage-enrollment works!</p>
+<div class="container">
+
+  <div class="row p-3 mb-3">
+    <div class="col">
+      <h2>Manage Enrollment</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="enrollmentForm">
+        <select class="form-select"
+          formControlName="user"
+          aria-label="Default select example">
+          <option selected>Open this select menu</option>
+          <option *ngFor="let user of users" [value]="user.id">{{user.name}}</option>
+        </select>
+      </form>
+    </div>
+  </div>
+
+</div>

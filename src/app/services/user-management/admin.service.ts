@@ -27,7 +27,7 @@ export class AdminService {
 
   manageCourseLinks: CardNav[] = [
     {
-      route: 'enroll-user',
+      route: 'enroll',
       title: 'Manage Enrollment',
       image: 'enrollUser'
     },
