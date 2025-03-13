@@ -1,6 +1,7 @@
 import { UserService } from './../../services/user.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
+import { CourseService } from 'src/app/services/course.service';
 
 @Component({
   selector: 'app-manage-enrollment',
@@ -10,6 +11,7 @@ import { Component } from '@angular/core';
 export class ManageEnrollmentComponent {
 
   users: any[] = [];
+  courses: any[] = [];
 
   enrollmentForm: FormGroup = new FormGroup({
     user: new FormControl('Select User', Validators.required),
@@ -17,7 +19,9 @@ export class ManageEnrollmentComponent {
     role: new FormControl('', Validators.required)
   });
 
-  constructor(private userService: UserService){}
+  constructor(private userService: UserService,
+    private courseService: CourseService
+  ){}
 
   ngOnInit(){
 
@@ -44,6 +48,26 @@ export class ManageEnrollmentComponent {
     );
 
     // Get course list
+    this.courseService.getAllCourses_SuperUser().subscribe(
+      {
+        next: (response: any) => {
+
+          this.courses = response?.data;
+          console.log("[Success] Get All Courses", response);
+
+
+        },
+        error: (error: any) => {
+
+          console.error(error);
+
+        },
+        complete: () =>{
+
+
+        }
+      }
+    );
 
     this.enrollmentForm.valueChanges.subscribe((formData)=>{
 
