@@ -7,31 +7,42 @@
   </div>
 
   <form [formGroup]="enrollmentForm">
-    <div class="row mb-2">
 
-      <div class="col">
+    <div class="row mb-3">
+
+      <div class="col-12">
+        <h3>Choose a course</h3>
+      </div>
+
+      <div class="col-12 mb-3">
+        <select class="form-select"
+          formControlName="course"
+          aria-label="Default select example"
+          placeholder="Select a course">
+          <option disabled selected value="">Select a course</option>
+          <option *ngFor="let course of courses" [value]="course.title">{{course.title}}</option>
+        </select>
+      </div>
+
+      <!-- <div class="col-12">
         <select class="form-select"
           formControlName="user"
           aria-label="Default select example">
           <option selected>Open this select menu</option>
           <option *ngFor="let user of users" [value]="user.id">{{user.name}}</option>
         </select>
+      </div> -->
+      <div class="col-12">
+        <h3>Enroll Users</h3>
+      </div>
+
+      <div class="col-12">
+        <app-search-container [dataFromParent]="dataToChild"></app-search-container>
       </div>
 
     </div>
 
-    <div class="row mb-3">
 
-      <div class="col">
-        <select class="form-select"
-          formControlName="user"
-          aria-label="Default select example">
-          <option selected>Open this select menu</option>
-          <option *ngFor="let course of courses" [value]="course.title">{{course.title}}</option>
-        </select>
-      </div>
-
-    </div>
 
 
 

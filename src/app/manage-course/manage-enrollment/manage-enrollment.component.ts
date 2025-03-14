@@ -1,20 +1,29 @@
 import { UserService } from './../../services/user.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 import { CourseService } from 'src/app/services/course.service';
 
 @Component({
   selector: 'app-manage-enrollment',
   templateUrl: './manage-enrollment.component.html',
-  styleUrls: ['./manage-enrollment.component.scss']
+  styleUrls: ['./manage-enrollment.component.scss'],
 })
-export class ManageEnrollmentComponent {
+export class ManageEnrollmentComponent{
 
   users: any[] = [];
   courses: any[] = [];
 
+  dataToChild: {
+    formGroup: FormGroup | null;
+    users: any[];
+  } = {
+    formGroup: null,
+    users: []
+  }
+
   enrollmentForm: FormGroup = new FormGroup({
-    user: new FormControl('Select User', Validators.required),
+    user: new FormControl([''], Validators.required),
+    userSearchInput: new FormControl('', Validators.required),
     course: new FormControl('', Validators.required),
     role: new FormControl('', Validators.required)
   });
@@ -25,6 +34,8 @@ export class ManageEnrollmentComponent {
 
   ngOnInit(){
 
+
+
     // Get User list
     this.userService.getAllUsers().subscribe(
       {
@@ -32,6 +43,11 @@ export class ManageEnrollmentComponent {
 
           this.users = response?.data;
           console.log("[Success] Get All Users", response);
+
+          this.dataToChild = {
+            formGroup: this.enrollmentForm,
+            users: this.users
+          }
 
 
         },
@@ -77,16 +93,10 @@ export class ManageEnrollmentComponent {
 
   }
 
-  ngOnViewInit(){
+  ngAfterViewInit(){
 
 
 
   }
-
-
-
-
-
-
 
 }

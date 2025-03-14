@@ -1,0 +1,65 @@
+<ng-container *ngIf="dataFromParent.formGroup !== null">
+
+<div class="container">
+
+  <form [formGroup]="dataFromParent.formGroup">
+
+    <!-- <div> -->
+
+    <div class="row mb-3">
+
+      <div class="col px-0">
+        <input
+          class="form-control"
+          formControlName="userSearchInput"
+          type="text"
+          placeholder="Search for a user to enroll">
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col">
+        <div *ngIf="filteredUsers.length === 0">
+          <p>No users found.</p>
+        </div>
+        <div class="row search-result-row p-2 mb-2" *ngFor="let user of filteredUsers">
+
+          <div class="col-8 d-flex align-items-center">
+            <p class="m-0">{{user.name}}</p>
+          </div>
+
+          <div class="col-4 d-flex align-items-center">
+            <button class="add-button" (click)="writeValue(user)">+</button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="col">
+        <h4>Selected Users</h4>
+      </div>
+    </div>
+
+    <div *ngFor="let user of selectedUsers"
+      (change)="onChange(user)"
+      class="row">
+      <p>{{user.name}}</p>
+    </div>
+
+    <!-- </div> -->
+
+  </form>
+
+</div>
+
+</ng-container>
+
+

@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { InsertCreateSectionComponentDirective } from './directives/insert-create-section-component.directive';
 import { CreateSectionComponent } from './reusable-component/create-section/create-section.component';
 import { ManageEnrollmentComponent } from './manage-course/manage-enrollment/manage-enrollment.component';
+import { SearchContainerComponent } from './custom-form/search-container/search-container.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ManageEnrollmentComponent } from './manage-course/manage-enrollment/man
     ManageCourseComponent,
     InsertCreateSectionComponentDirective,
     CreateSectionComponent,
-    ManageEnrollmentComponent
+    ManageEnrollmentComponent,
+    SearchContainerComponent
   ],
   imports: [
     BrowserModule,
