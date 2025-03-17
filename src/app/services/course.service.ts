@@ -15,6 +15,8 @@ import { environment as devEnvironment } from 'src/environment/environment.devel
 import { environment as prodEnvironment} from 'src/environment/environment';
 import { Section } from '../model/Section';
 import { PostRequest } from '../model/PostRequest';
+import { PostResponse } from '../model/PostResponse';
+import { Course } from '../model/Course';
 
 
 @Injectable({
@@ -35,7 +37,7 @@ export class CourseService {
     private timeService: TimeService) { }
 
 
-  getAllCourses_SuperUser(): Observable<any>{
+  getAllCourses_SuperUser(): Observable<PostResponse<Course>|unknown>{
 
 
     const request: any = {
@@ -55,7 +57,7 @@ export class CourseService {
   // ==============================================
   // Get All Courses By User ID
   // ==============================================
-  getAllCoursesByUserID(): Observable<any>{
+  getAllCoursesByUserID(): Observable<PostResponse<Course>|unknown>{
 
 
     const request: any = {
@@ -101,6 +103,7 @@ export class CourseService {
 
   }
 
+  // TODO: create generic types 17/3/2025
   publishCourse(createNewCourseFormData: any): Observable<any>[]{
 
     console.log("[Before stitchFormDataWithAppendedSectionData] createNewCourseFormData", createNewCourseFormData);
@@ -193,7 +196,7 @@ export class CourseService {
   //    timestamp: datetime (later)
   //    token: admin token (later)
   // ==============================================
-  postNewCourseFormData(newCourseFormData: any): Observable<any>{
+  postNewCourseFormData(newCourseFormData: any): Observable<PostResponse<unknown>|unknown>{
 
 
     var fileNames = [];
@@ -221,6 +224,7 @@ export class CourseService {
 
   }
 
+  // TODO: create generic types 17/3/2025
   postNewCourseMultimediaFiles(courseMultimediaFiles: any): Observable<any>{
 
     var fileDataArray: FormData = new FormData();

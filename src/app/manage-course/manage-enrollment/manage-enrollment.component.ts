@@ -122,7 +122,8 @@ export class ManageEnrollmentComponent{
 
 
         }
-    });
+      }
+    );
   }
 
 }

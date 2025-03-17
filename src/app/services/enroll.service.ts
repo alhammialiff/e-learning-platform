@@ -12,6 +12,7 @@ import { environment as devEnvironment } from 'src/environment/environment.devel
 // ================================================
 import { environment as prodEnvironment} from 'src/environment/environment';
 import { PostRequest } from '../model/PostRequest';
+import { PostResponse } from '../model/PostResponse';
 
 
 @Injectable({
@@ -28,7 +29,7 @@ export class EnrollService {
   constructor(private httpClient: HttpClient) { }
 
 
-  enrollUserToCourse(enrollmentForm: any): Observable<any> {
+  enrollUserToCourse(enrollmentForm: any): Observable<PostResponse<unknown> | unknown> {
 
     console.log("[enrollUserToCourse] enrollmentForm", enrollmentForm);
 
