@@ -66,7 +66,7 @@ export class SearchContainerComponent implements ControlValueAccessor{
   // CVA Required Methods
   writeValue(user: any){
 
-    this.dataFromParent.formGroup?.controls['user'].setValue([...this.dataFromParent.formGroup?.controls['user'].value, user]);
+    this.dataFromParent.formGroup?.controls['users'].setValue([...this.dataFromParent.formGroup?.controls['users'].value, user]);
     this.selectedUsers.push(user);
 
   }

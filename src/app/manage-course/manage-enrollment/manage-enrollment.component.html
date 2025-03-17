@@ -20,7 +20,7 @@
           aria-label="Default select example"
           placeholder="Select a course">
           <option disabled selected value="">Select a course</option>
-          <option *ngFor="let course of courses" [value]="course.title">{{course.title}}</option>
+          <option *ngFor="let course of courses" [value]="course.id">{{course.title}}</option>
         </select>
       </div>
 
@@ -40,6 +40,12 @@
         <app-search-container [dataFromParent]="dataToChild"></app-search-container>
       </div>
 
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-12">
+        <button class="btn btn-primary w-100" type="submit" class="btn btn-primary" (click)="onClickEnroll()">Enroll</button>
+      </div>
     </div>
 
 

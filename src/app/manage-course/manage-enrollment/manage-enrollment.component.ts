@@ -2,6 +2,7 @@ import { UserService } from './../../services/user.service';
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 import { CourseService } from 'src/app/services/course.service';
+import { EnrollService } from 'src/app/services/enroll.service';
 
 @Component({
   selector: 'app-manage-enrollment',
@@ -22,19 +23,23 @@ export class ManageEnrollmentComponent{
   }
 
   enrollmentForm: FormGroup = new FormGroup({
-    user: new FormControl([''], Validators.required),
+    users: new FormControl([''], Validators.required),
     userSearchInput: new FormControl('', Validators.required),
     course: new FormControl('', Validators.required),
-    role: new FormControl('', Validators.required)
+
+    // ==================
+    // Save for later dev
+    // ==================
+    // role: new FormControl('', Validators.required)
+
   });
 
   constructor(private userService: UserService,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private enrollService: EnrollService
   ){}
 
   ngOnInit(){
-
-
 
     // Get User list
     this.userService.getAllUsers().subscribe(
@@ -97,6 +102,27 @@ export class ManageEnrollmentComponent{
 
 
 
+  }
+
+  onClickEnroll = () => {
+
+    this.enrollService.enrollUserToCourse(this.enrollmentForm.getRawValue()).subscribe(
+      {
+        next: (response: any) => {
+
+          console.log("[Success] Enroll User", response);
+          alert("User Enrolled Successfully");
+
+        },
+        error: (error: any) => {
+
+
+        },
+        complete: () =>{
+
+
+        }
+    });
   }
 
 }
