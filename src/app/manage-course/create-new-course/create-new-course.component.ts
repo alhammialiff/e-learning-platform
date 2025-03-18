@@ -4,6 +4,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { InsertCreateSectionComponentDirective } from 'src/app/directives/insert-create-section-component.directive';
 import { CreateSectionComponent } from 'src/app/reusable-component/create-section/create-section.component';
 import { CourseService } from 'src/app/services/course.service';
+import { ErrorHandlerService } from 'src/app/services/error-handler.service';
 
 @Component({
   selector: 'create-new-course',
@@ -60,7 +61,8 @@ export class CreateNewCourseComponent {
   newCourseForm!: any | null;
 
   constructor(private courseService: CourseService,
-    private host: ElementRef<HTMLElement>
+    private host: ElementRef<HTMLElement>,
+    private errorHandlerService: ErrorHandlerService
   ){}
 
   ngOnInit(){
@@ -148,6 +150,7 @@ export class CreateNewCourseComponent {
         ...this.createNewCourseForm.getRawValue()
       }
     )[0].subscribe({
+
       next: (httpResponse: PostResponse<unknown>) => {
 
         console.log("[onPublishNewCourse|POST /api/course/new]",httpResponse);
@@ -156,9 +159,7 @@ export class CreateNewCourseComponent {
       error: <K>(error: K) => {
 
         console.log("[onPublishNewCourse|POST /api/course/new]", error);
-
-      },
-      complete: () =>{
+        this.errorHandlerService.handleError(error);
 
       }
 
@@ -172,12 +173,14 @@ export class CreateNewCourseComponent {
         ...this.createNewCourseForm.getRawValue()
       }
     )[1].subscribe({
-      next: (httpResponse) => {
+      next: (httpResponse: PostResponse<unknown>) => {
 
         console.log("[onPublishNewCourse|POST /api/course/new/upload]",httpResponse);
 
       },
-      error: (error: any) => {
+      error: <K>(error: K) => {
+
+        this.errorHandlerService.handleError(error);
 
         console.log("[onPublishNewCourse|POST /api/course/new/upload]", error);
 
