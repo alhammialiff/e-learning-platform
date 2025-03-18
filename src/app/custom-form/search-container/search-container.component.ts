@@ -1,5 +1,6 @@
 import { Component, forwardRef, Input, NgZone } from '@angular/core';
 import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { User } from 'src/app/model/User';
 
 @Component({
   selector: 'app-search-container',
@@ -11,11 +12,11 @@ export class SearchContainerComponent implements ControlValueAccessor{
 
   @Input() dataFromParent!: {
     formGroup: FormGroup | null;
-    users: any[]
+    users: User<'name' | 'id'>[] | null
   };
 
-  selectedUsers: any[] = [];
-  filteredUsers: any[] = [];
+  selectedUsers: User<'name' | 'id'>[] | null  = [];
+  filteredUsers: User<'name' | 'id'>[] | null  = [];
 
   onChange = (user: any) => {};
   onTouched = () => {};
@@ -49,14 +50,16 @@ export class SearchContainerComponent implements ControlValueAccessor{
 
     console.log("Search input", this.dataFromParent.formGroup?.controls['userSearchInput'].value.toLowerCase());
 
+    // If dataFromParent is not null and has user property
+    if(this.dataFromParent?.users){
 
-    this.filteredUsers = this.dataFromParent.users.filter((user)=>{
+      this.filteredUsers = this.dataFromParent.users.filter((user)=>{
 
+        return user.name.toLowerCase().includes(this.dataFromParent.formGroup?.controls['userSearchInput'].value.toLowerCase()) ?? null;
 
+      });
 
-      return user.name.toLowerCase().includes(this.dataFromParent.formGroup?.controls['userSearchInput'].value.toLowerCase());
-
-    });
+    }
 
     console.log("Filtered Result", this.filteredUsers);
 
@@ -67,7 +70,12 @@ export class SearchContainerComponent implements ControlValueAccessor{
   writeValue(user: any){
 
     this.dataFromParent.formGroup?.controls['users'].setValue([...this.dataFromParent.formGroup?.controls['users'].value, user]);
-    this.selectedUsers.push(user);
+
+    if(this.selectedUsers){
+
+      this.selectedUsers.push(user);
+
+    }
 
   }
 

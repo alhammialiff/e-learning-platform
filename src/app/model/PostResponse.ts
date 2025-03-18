@@ -1,9 +1,8 @@
 import { Course } from "./Course";
-import { CourseEnrollment } from "./CourseEnrollment";
 
-export interface PostResponse<Data> {
-  response: string;
-  data?: Data;
+export interface PostResponse<K> {
+  status: number;
+  data?: K;
   message: string;
   timestamp: string;
 }

@@ -21,7 +21,7 @@
     <div class="row">
 
       <div class="col">
-        <div *ngIf="filteredUsers.length === 0">
+        <div *ngIf="filteredUsers?.length === 0">
           <p>No users found.</p>
         </div>
         <div class="row search-result-row p-2 mb-2" *ngFor="let user of filteredUsers">

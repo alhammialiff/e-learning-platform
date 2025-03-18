@@ -1,3 +1,4 @@
+import { PostResponse } from './../../model/PostResponse';
 import { Component, createEnvironmentInjector, ElementRef, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { InsertCreateSectionComponentDirective } from 'src/app/directives/insert-create-section-component.directive';
@@ -147,12 +148,12 @@ export class CreateNewCourseComponent {
         ...this.createNewCourseForm.getRawValue()
       }
     )[0].subscribe({
-      next: (httpResponse) => {
+      next: (httpResponse: PostResponse<unknown>) => {
 
         console.log("[onPublishNewCourse|POST /api/course/new]",httpResponse);
 
       },
-      error: (error: any) => {
+      error: <K>(error: K) => {
 
         console.log("[onPublishNewCourse|POST /api/course/new]", error);
 
