@@ -1,5 +1,50 @@
 .custom-logo-size{
 
-  width: 25vw;
+  width: 150px;
+  padding: 15px;
 
 }
+
+.nav-links{
+
+  ul{
+
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+
+    li{
+      padding: 15px;
+      float: right;
+      display: inline;
+      cursor: pointer;
+      color: #141414;
+    }
+
+    li a{
+
+      text-decoration: none;
+      font-weight: 500;
+      color: #141414;
+
+    }
+
+    li a:hover{
+
+      color: rgb(170, 170, 170);
+      transition: color 250ms ease-in;
+
+    }
+
+  }
+
+
+}
+
+// @media screen and (min-width: ) {
+//   .custom-logo-size{
+//     width: 50vw;
+//   }
+
+// }
