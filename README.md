@@ -1,27 +1,42 @@
-# Lms249Prototype
+# Mock Enterprise E-learning Platform
+This is a mock e-learning app for enterprise. 
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.4.
+## Motivation
+The motivation of this development is to create something like Coursera and Udemy, where course authors and instructors may use platform in ways that would ease their work in scaffolding an e-learning course. While this is a mock-up, this is a dev practice to think more about the user experience.
 
-## Development server
+## Goal
+The eventual goal of this app is to allow course authors to create an e-learning course through a prescribed template. Additionally, the prescribed template should be flexible enough to cover most course structures.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## The template idea 
+The template at this point of writing is in the shape of below - in descending order:
+1. Course
+2. Chapter
+3. Section (Or End of Chapter Quiz)
+4. Sub-Section
 
-## Code scaffolding
+### Something to note
+This is a do-when-I-am-free pet project. Not sure when I will finish this. But...
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### What I have developed so far
+1. Mobile layout wireframe
+2. Designed schema for the DB
+    - Course - Root table for any e-learning content
+    - Chapter - Chapter table with course_id as foreign key
+    - Section - Section table with chapter_id as foreign key
+    - Multimedia - Multimedia table with section_id (Eg. Section's lecture video) or chapter_id (Eg. Chapter's intro video) as foreign key     
+6. Sending course metadata and multimedia to DB in Postgres
+7. Retrieving course metadata and multimedia from DB
+8. Created an application backend (Express Typescript) to handle API request and DB CRUDs
 
-## Build
+### What I aim to do from this point on
+1. E2E testing of data flow (retrieval and course creation)
+2. Verify that template structure holds up in different cases
+3. Comment section of each section and chapter
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Tools
+1. Frontend: Angular 16
+2. Backend: Express Typescript
+3. DB: Postgres
 
-## Running unit tests
+Alhammi Aliff
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
