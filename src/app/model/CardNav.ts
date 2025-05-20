@@ -1,7 +1,7 @@
 export interface CardNav {
 
-  route: string,
-  title: string,
-  image: string
+  route: string | null,
+  title: string | null,
+  image: string | null
 
 }

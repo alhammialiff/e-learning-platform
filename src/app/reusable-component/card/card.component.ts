@@ -10,11 +10,27 @@ import { Course } from 'src/app/model/Course';
 export class CardComponent {
 
   @Input()
-  cardContent!: CardNav | Partial<Course> | null;
+  cardContent!: CardNav | Course | null;
   isCardNav = false;
   isCourseCard = false;
   dirPath: string = `assets/image/`;
   imagePath: string | null = null;
+
+  courseCard: Course = {
+    id: null,
+    name: null,
+    description: null,
+    topic: null,
+    image: null,
+    duration: null
+  };
+
+  cardNav: CardNav = {
+    route: null,
+    title: null,
+    image: null
+
+  }
 
   constructor(private changeDetectorRef: ChangeDetectorRef){}
 
@@ -29,11 +45,17 @@ export class CardComponent {
 
     if(this.isCourseCard){
 
+      this.courseCard = this.cardContent as Course;
+
       this.imagePath = this.dirPath + this.cardContent?.image;
 
       console.log("Card Content Image - ", this.cardContent?.image);
 
       console.log("Image Path - ", this.imagePath);
+
+    }else{
+
+      this.cardNav = this.cardContent as CardNav;
 
     }
 

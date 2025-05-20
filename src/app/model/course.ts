@@ -1,10 +1,10 @@
 export interface Course {
 
-  id: number;
-  title: string;
-  description: string;
-  topic: string;
-  image?: string;
-  duration: number;
+  id: number | null;
+  name: string | null;
+  description: string | null;
+  topic: string | null;
+  image?: string | null;
+  duration: number | null;
 
 }

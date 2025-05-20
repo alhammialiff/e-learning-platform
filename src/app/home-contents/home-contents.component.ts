@@ -12,7 +12,7 @@ import { AdminService } from '../services/user-management/admin.service';
 export class HomeContentsComponent {
 
   // Courses that are available to User
-  courses!: Partial<Course>[];
+  courses!: Course[];
 
   adminLinks: CardNav[] | null = null;
 
@@ -42,7 +42,11 @@ export class HomeContentsComponent {
 
     // });
 
+    // =========================================================
+    // Get All Course SuperUser Access (For developments)
+    // =========================================================
     this.courseService.getAllCourses_SuperUser().subscribe({
+
       next: (response: any) => {
 
         console.log("[Success] Get All Courses (Super User)", response);
@@ -64,15 +68,5 @@ export class HomeContentsComponent {
 
   }
 
-  // ngOnChanges(changes: SimpleChange){
-
-  //   if(changes){
-
-  //     console.log("changes", changes);
-
-
-  //   }
-
-  // }
 
 }
