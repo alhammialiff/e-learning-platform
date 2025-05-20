@@ -12,7 +12,7 @@ import { AdminService } from '../services/user-management/admin.service';
 export class HomeContentsComponent {
 
   // Courses that are available to User
-  courses!: Course[];
+  courses: Course[] = [];
 
   adminLinks: CardNav[] | null = null;
 
@@ -61,10 +61,6 @@ export class HomeContentsComponent {
       }
 
     });
-
-  }
-
-  ngAfterViewInit(){
 
   }
 

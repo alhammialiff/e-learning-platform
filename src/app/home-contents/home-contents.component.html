@@ -1,10 +1,13 @@
 <div class="container">
 
+  <!-- Welcome Card Row -->
   <div class="row py-4">
     <app-welcome-back-card></app-welcome-back-card>
   </div>
 
+  <!-- Admin-related Links/User & Recent Activity Links (Future Works) -->
   <div class="row">
+
     <div class="col-12 col-lg-4">
 
       <div class="row pt-4 mb-3">
@@ -23,30 +26,39 @@
       </div>
 
     </div>
-    <div class="col-12 col-lg-6">
+
+
+  </div>
+
+  <div class="row">
+    <div class="col-12">
       <div class="row pt-3 pb-2">
 
         <div class="col-12 mb-3">
           <h2>Active Courses</h2>
         </div>
 
-        <div class="col-12" *ngFor="let course of courses">
-
-          <!-- Add card of available courses for user -->
-          <app-card [cardContent]="courses !== null || courses !== undefined? course: null"></app-card>
-
-        </div>
-
       </div>
     </div>
-  </div>
-
-  <div class="row">
 
   </div>
 
+  <!-- List Layout for Mobile -->
   <div class="row">
 
+    <div class="col-12 d-block d-lg-none" *ngFor="let course of courses">
+
+        <!-- Add card of available courses for user -->
+      <app-card [cardContent]="courses !== null || courses !== undefined? course: null"></app-card>
+
+    </div>
+
+  </div>
+
+  <!-- Grid Layout for Web -->
+  <div class="row d-lg-block">
+      <!-- Add card of available courses for user -->
+      <app-course-card-web [courseContent]="courses || []"></app-course-card-web>
   </div>
 
 </div>

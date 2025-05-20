@@ -16,6 +16,7 @@ import { InsertCreateSectionComponentDirective } from './directives/insert-creat
 import { CreateSectionComponent } from './reusable-component/create-section/create-section.component';
 import { ManageEnrollmentComponent } from './manage-course/manage-enrollment/manage-enrollment.component';
 import { SearchContainerComponent } from './custom-form/search-container/search-container.component';
+import { CourseCardWebComponent } from './reusable-component/course-card-web/course-card-web.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { SearchContainerComponent } from './custom-form/search-container/search-
     InsertCreateSectionComponentDirective,
     CreateSectionComponent,
     ManageEnrollmentComponent,
-    SearchContainerComponent
+    SearchContainerComponent,
+    CourseCardWebComponent
   ],
   imports: [
     BrowserModule,

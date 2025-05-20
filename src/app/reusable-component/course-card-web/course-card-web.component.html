@@ -1,0 +1,25 @@
+
+<div class="card-web-grid">
+
+  <div *ngFor="let course of courseContent; let i = index" class="card-web">
+
+
+      <!-- Course image (To refactor element structure) -->
+      <div>
+        <ng-container *ngIf="course.image === null || course.image === undefined; else courseImageAvailable">
+          <img class="course-image-web" src="/assets/image/default-course-image.png" alt="">
+        </ng-container>
+
+        <ng-template #courseImageAvailable>
+          <img class="course-image-web" [src]="imagePathList[i]" alt="">
+        </ng-template>
+      </div>
+
+      <div>
+        {{course.name}}
+      </div>
+
+  </div>
+
+</div>
+
