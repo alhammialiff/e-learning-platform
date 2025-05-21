@@ -7,7 +7,7 @@
 
   <div class="row">
 
-    <div class="col">
+    <div class="col-6">
       <form [formGroup]="createNewCourseForm">
 
         <div class="row py-3">
@@ -50,6 +50,32 @@
           </div>
         </div>
 
+        <div class="row pb-3">
+          <div class="col">
+
+            <h5>Click To Upload or Drag a Cover Image For Your Course</h5>
+            <input
+              type="file"
+              class="form-control"
+              (change)="onInput($event)"
+              style="display: none"
+              #fileInput
+            />
+            <div class="course-cover-image-upload-section"
+              (click)="fileInput.click()"
+              (drop)="onInput($event)"
+              (dragover)="onDragOver($event)">
+              <div class="upload-sign-section">
+                <span class="material-symbols-outlined">upload</span>
+              </div>
+              <div class="upload-section-title">
+                Click Here or Drag to Upload
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </form>
     </div>
 
@@ -59,55 +85,63 @@
 
 </div>
 
-<div class="container create-chapter-container p-4 mb-3">
+<div class="container">
 
-  <form [formGroup]="createNewCourseForm">
+  <div class="row">
 
-    <div formArrayName="courseChapters">
+    <div class="col-6 create-chapter-container p-4 mb-3">
+      <form [formGroup]="createNewCourseForm">
 
-        <ng-container *ngFor="let courseChapter of courseChapters.controls; let i = index">
+        <div formArrayName="courseChapters">
 
-          <div [formGroupName]="i">
+            <ng-container *ngFor="let courseChapter of courseChapters.controls; let i = index">
 
-            <div class="row">
-              <div class="col">
-                <h3>2. Create your Course Chapters</h3>
+              <div [formGroupName]="i">
+
+                <div class="row">
+                  <div class="col">
+                    <h3>2. Create your Course Chapters</h3>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <h5>Chapter Title</h5>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col">
+                    <input class="form-control" type="text" formControlName="chapterTitle" placeholder="Enter this chapter's title">
+                  </div>
+                </div>
+
+                <div class="row">
+                  <ng-template insertCreateSectionComponent></ng-template>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col">
+                    <button class="btn btn-primary w-100" (click)="injectCreateSectionComponent()">Add Section</button>
+                  </div>
+                </div>
+
               </div>
-            </div>
 
-            <div class="row">
-              <div class="col">
-                <h5>Chapter Title</h5>
-              </div>
-            </div>
-
-            <div class="row mb-3">
-              <div class="col">
-                <input class="form-control" type="text" formControlName="chapterTitle" placeholder="Enter this chapter's title">
-              </div>
-            </div>
-
-            <div class="row">
-              <ng-template insertCreateSectionComponent></ng-template>
-            </div>
-
-            <div class="row mb-3">
-              <div class="col">
-                <button class="btn btn-primary w-100" (click)="injectCreateSectionComponent()">Add Section</button>
-              </div>
-            </div>
-
+            </ng-container>
           </div>
 
-        </ng-container>
-      </div>
+      </form>
+    </div>
 
-  </form>
+  </div>
 
 </div>
 
-<div class="container mb-3">
-  <div class="row">
-    <button class="btn btn-warning" (click)="onPublishNewCourse()">Publish Course</button>
+<div class="container">
+  <div class="row mb-3">
+    <div class="col-6 d-flex justify-content-center">
+      <button class="btn w-100 btn-warning" (click)="onPublishNewCourse()">Publish Course</button>
+    </div>
   </div>
 </div>

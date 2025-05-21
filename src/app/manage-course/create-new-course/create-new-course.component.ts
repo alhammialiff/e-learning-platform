@@ -1,6 +1,7 @@
 import { PostResponse } from './../../model/PostResponse';
 import { Component, createEnvironmentInjector, ElementRef, Type, ViewChild, ViewContainerRef } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ControlValueAccessor, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { map, tap } from 'rxjs';
 import { InsertCreateSectionComponentDirective } from 'src/app/directives/insert-create-section-component.directive';
 import { CreateSectionComponent } from 'src/app/reusable-component/create-section/create-section.component';
 import { CourseService } from 'src/app/services/course.service';
@@ -11,7 +12,7 @@ import { ErrorHandlerService } from 'src/app/services/error-handler.service';
   templateUrl: './create-new-course.component.html',
   styleUrls: ['./create-new-course.component.scss']
 })
-export class CreateNewCourseComponent {
+export class CreateNewCourseComponent implements ControlValueAccessor{
 
   // ===================================
   // Custom Directives to dynamically inject components into this component
@@ -44,6 +45,7 @@ export class CreateNewCourseComponent {
     courseDescription: new FormControl('', Validators.required),
     learningObjectives: new FormControl('', Validators.required),
     topic: new FormControl('', Validators.required),
+    courseCoverImage: new FormControl('', Validators.required),
 
     // Course Chapters
     courseChapters: new FormArray([
@@ -58,6 +60,8 @@ export class CreateNewCourseComponent {
     ])
   });
 
+  courseCoverImagePath: string | null = '';
+
   newCourseForm!: any | null;
 
   constructor(private courseService: CourseService,
@@ -67,13 +71,20 @@ export class CreateNewCourseComponent {
 
   ngOnInit(){
 
-    this.createNewCourseForm.valueChanges.subscribe((formData)=>{
+    this.createNewCourseForm
+      .valueChanges
+      .pipe(
+        tap(()=>{
+          return this.createNewCourseForm.getRawValue();
+        })
+      )
+      .subscribe((formData)=>{
 
-      console.log("this.newCourseForm", this.newCourseForm)
 
-      this.newCourseForm = formData;
+        this.newCourseForm = formData;
+        console.log("this.newCourseForm", this.newCourseForm)
 
-    });
+      });
 
   }
 
@@ -123,6 +134,8 @@ export class CreateNewCourseComponent {
       sectionMultimedia: new FormControl(null, Validators.required),
       _sectionIsSaved: new FormControl(false)
     });
+
+
 
     // =========================================
     // Push sectionForm into section Form Array
@@ -194,13 +207,73 @@ export class CreateNewCourseComponent {
   }
 
   get courseChapters() {
+
     return this.createNewCourseForm.get('courseChapters') as FormArray;
+
   }
 
   get section(){
 
     // Change 0 to var
     return this.courseChapters.at(this.courseChapters.length - 1).get('section') as FormArray;
+
+  }
+
+  // Custom Upload Methods required by CVA
+  onChange = (value: any) => {};
+  onTouched = () => {};
+
+  writeValue(value: any): void {
+    this.courseCoverImagePath = value;
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    // Optional: handle disabled state
+  }
+
+  onInput(event: Event): void{
+    event.preventDefault();
+
+    var imageFile: File | null = null;
+    var imageFilePath: string | null = '';
+
+    // If upload is dragged over
+    if ((event as DragEvent).dataTransfer?.files) {
+
+      imageFile = (event as DragEvent).dataTransfer?.files[0] ?? null;
+      imageFilePath = imageFile ? imageFile.name : null;
+
+    // Otherwise, click upload is fired
+    }else{
+
+      var input = event.target as HTMLInputElement;
+
+      imageFile = input.files? input.files[0] : null;
+      imageFilePath = imageFile ? imageFile.name : null;
+
+    }
+
+    // Set value of file path to form control
+    this.createNewCourseForm.patchValue({
+      courseCoverImage: imageFilePath
+    });
+
+    // TODO - Save file in a service
+
+  }
+
+  onDragOver(event: Event): void {
+
+    event?.preventDefault();
+
 
   }
 
