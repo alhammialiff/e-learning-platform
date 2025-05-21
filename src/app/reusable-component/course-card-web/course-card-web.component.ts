@@ -26,20 +26,6 @@ export class CourseCardWebComponent {
 
   ngOnInit(){
 
-    // Iterate course content to check if it is Course
-    this.courseContent?.forEach((course:unknown)=>{
-
-      if(this.isCourse(course)){
-
-        const imagePath = this.dirPath + course.image;
-
-        // Bug here [21/05] - To fix it next sesh
-        this.imagePathList.push(imagePath);
-
-      }
-
-    });
-
 
   }
 
