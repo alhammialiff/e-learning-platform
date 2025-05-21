@@ -5,7 +5,8 @@
 
 
       <!-- Course image (To refactor element structure) -->
-      <div>
+      <div class="card-web-image-section">
+
         <ng-container *ngIf="course.image === null || course.image === undefined; else courseImageAvailable">
           <img class="course-image-web" src="/assets/image/default-course-image.png" alt="">
         </ng-container>
@@ -13,9 +14,10 @@
         <ng-template #courseImageAvailable>
           <img class="course-image-web" [src]="imagePathList[i]" alt="">
         </ng-template>
+
       </div>
 
-      <div>
+      <div class="card-web-title-section">
         {{course.name}}
       </div>
 
